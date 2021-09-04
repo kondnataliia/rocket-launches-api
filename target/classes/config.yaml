@@ -1,0 +1,15 @@
+http:
+  port: "8081"
+
+thespacedevs:
+  host: "lldev.thespacedevs.com"
+  basepath: "/"
+  protocol: "HTTP"
+  
+validation:
+  status:
+    regex: "^(Success|Failure|Partial Failure)$"
+    message: "Invalid launch status"
+  launch_year:
+    regex: "^([0-9]{4})$"
+    message: "Invalid launch year status"

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "7e00f7c3-7648-450a-a69b-6bc94e317d04",
+    "name": "vostok-k-sputnik-9",
+    "status": "Success",
+    "launch_date": "1961-03-09",
+    "failreason": "",
+    "launch_service_provider": "Strategic Missile Troops",
+    "pad": {
+      "name": "1/5",
+      "location": {
+        "name": "Baikonur Cosmodrome, Republic of Kazakhstan",
+        "country_code": "KAZ",
+        "total_launch_count": 0,
+        "total_landing_count": 0
+      }
+    },
+    "rocket_name": "Vostok"
+  }
+]

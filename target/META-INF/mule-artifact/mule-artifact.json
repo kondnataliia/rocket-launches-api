@@ -1,0 +1,42 @@
+{
+  "configs": [
+    "implementation.xml",
+    "interface.xml",
+    "global.xml",
+    "error_handlers.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:rocket-launches-api:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "application-types.xml",
+        "config.yaml",
+        "error_handlers.xml",
+        "examples/payload_example-1.json",
+        "examples/payload_example.json",
+        "generalInfoExample.json",
+        "global.xml",
+        "implementation.xml",
+        "interface.xml",
+        "launches_payload_example.json",
+        "launchInfoDataTypes.raml",
+        "launchInfoExample.json",
+        "log4j2.xml",
+        "rocket-launches-api.raml",
+        "rocketInfoDataTypes.raml",
+        "rocketInfoExample.json",
+        "rockets_payload_example.json"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

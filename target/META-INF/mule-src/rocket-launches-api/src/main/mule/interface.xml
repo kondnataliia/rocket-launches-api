@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd ">
+    <flow name="rocket-launches-api-main">
+        <http:listener config-ref="HTTP_Listener_config" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="rocket-launches-api-config"/>
+		<error-handler ref="api-main-error-handler" />
+    </flow>
+    <flow name="rocket-launches-api-console">
+        <http:listener config-ref="HTTP_Listener_config" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="rocket-launches-api-config"/>
+		<error-handler ref="api-console-error-handler" />
+    </flow>
+    <flow name="get:\launchesByLaunchName:rocket-launches-api-config">
+		<flow-ref doc:name="getLaunchesByLaunchName" doc:id="0c5f8ecb-6fab-4889-a911-11e842c62405" name="getLaunchesByLaunchName" targetValue="#[message]"/>
+    </flow>
+    <flow name="get:\launchesByRocketName:rocket-launches-api-config">
+		<flow-ref doc:name="getLaunches" doc:id="3b77678d-e938-40d1-a481-0a42c267a94e" name="getLaunchesByRocketName" targetValue="#[message]"/>
+    </flow>
+    <flow name="get:\launchesByStatusAndYear:rocket-launches-api-config">
+		<flow-ref doc:name="getLaunchesByStatusAndYear" doc:id="4646ce69-f057-4908-8a3f-6063af5ea9fe" name="getLaunchesByStatusAndYear" targetValue="#[message]"/>
+    </flow>
+</mule>

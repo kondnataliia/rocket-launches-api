@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<apikit:config name="rocket-launches-api-config" api="rocket-launches-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" raml="rocket-launches-api.raml"/>
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="52e0fa32-8d48-43ba-90e9-13137a5c804d" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="87c63d75-153c-4e3e-8b08-74e7c7bf43a2" basePath="${thespacedevs.basepath}">
+		<http:request-connection host="${thespacedevs.host}" protocol="${thespacedevs.protocol}"/>
+	</http:request-config>
+	<validation:config name="Validation_Config" doc:name="Validation Config" doc:id="8e20c6ec-c6f1-4ddb-aaa0-50d479c5d652" />
+	<configuration-properties doc:name="Configuration properties" doc:id="9c856be0-31eb-4618-946b-1cd088b66b9c" file="config.yaml" />
+	<configuration doc:name="Configuration" doc:id="07ab15d0-3bdb-46f9-b725-be94756ba882" defaultErrorHandler-ref="globalError_Handler" />
+</mule>

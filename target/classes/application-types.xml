@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="launchInfo_ex_json" format="json">
+      <types:shape format="weave" example="launchInfoExample.json"><![CDATA[%dw 2.0
+
+type launchInfo_ex_json = Array<{|  id: String,   name: String,   status: String,   launch_date: String,   failreason: String,   launch_service_provider: String,   pad: {|    name: String,     location: {|      name: String,       country_code: String,       total_launch_count: Number {"typeId": "int"},       total_landing_count: Number {"typeId": "int"}    |}  |},   rocket_name: String|}> {"example": "[{\\\"id\\\":\\\"7e00f7c3-7648-450a-a69b-6bc94e317d04\\\",\\\"name\\\":\\\"Vostok-K | Sputnik 9\\\",\\\"status\\\":\\\"Success\\\",\\\"launch_date\\\":\\\"1961-03-09\\\",\\\"failreason\\\":\\\"\\\",\\\"launch_service_provider\\\":\\\"Strategic Missile Troops\\\",\\\"pad\\\":{\\\"name\\\":\\\"1\\/5\\\",\\\"location\\\":{\\\"name\\\":\\\"Baikonur Cosmodrome, Republic of Kazakhstan\\\",\\\"country_code\\\":\\\"KAZ\\\",\\\"total_launch_count\\\":0,\\\"total_landing_count\\\":0}},\\\"rocket_name\\\":\\\"Vostok\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="rocketInfo_ex_json" format="json">
+      <types:shape format="weave" example="rocketInfoExample.json"><![CDATA[%dw 2.0
+
+type rocketInfo_ex_json = Array<{|  name: String,   manufacturer: {|    name: String,     "type": String,     country_code: String  |},   family: String,   full_name: String,   variant: String,   reusable: Boolean,   image_url: String,   wiki_url: String|}> {"example": "[{\\\"name\\\":\\\"Angara 1.2\\\",\\\"manufacturer\\\":{\\\"name\\\":\\\"International Launch Services\\\",\\\"type\\\":\\\"Commercial\\\",\\\"country_code\\\":\\\"USA\\\"},\\\"family\\\":\\\"Angara\\\",\\\"full_name\\\":\\\"Angara 1.2\\\",\\\"variant\\\":\\\"1.2\\\",\\\"reusable\\\":false,\\\"image_url\\\":\\\"https:\\/\\/spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com\\/media\\/launcher_images\\/angara25201.2_image_20190224012254.jpeg\\\",\\\"wiki_url\\\":\\\"https:\\/\\/en.wikipedia.org\\/wiki\\/Angara_(rocket_family)#Angara_1.2\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="launch_payload_json" format="json">
+      <types:shape format="weave" example="launches_payload_example.json"><![CDATA[%dw 2.0
+
+type launch_payload_json = {|
+  count: Number {"typeId": "int"}, 
+  next: String, 
+  previous: Null, 
+  results: Array<{|    id: String,     url: String,     launch_library_id: Number {"typeId": "int"},     slug: String,     name: String,     status: {|      id: Number {"typeId": "int"},       name: String    |},     net: String,     window_end: String,     window_start: String,     inhold: Boolean,     tbdtime: Boolean,     tbddate: Boolean,     probability: Number {"typeId": "int"},     holdreason: String,     failreason: String,     hashtag: String,     launch_service_provider: {|      id: Number {"typeId": "int"},       url: String,       name: String,       "type": Null    |},     rocket: {|      id: Number {"typeId": "int"},       configuration: {|        id: Number {"typeId": "int"},         launch_library_id: Number {"typeId": "int"},         url: String,         name: String,         family: String,         full_name: String,         variant: String      |}    |},     mission: Null,     pad: {|      id: Number {"typeId": "int"},       url: String,       agency_id: Null,       name: String,       info_url: Null,       wiki_url: String,       map_url: String,       latitude: String,       longitude: String,       location: {|        id: Number {"typeId": "int"},         url: String,         name: String,         country_code: String,         map_image: String,         total_launch_count: Number {"typeId": "int"},         total_landing_count: Number {"typeId": "int"}      |},       map_image: String,       total_launch_count: Number {"typeId": "int"}    |},     webcast_live: Boolean,     image: String,     infographic: Null,     program: Array<{|      id: Number {"typeId": "int"},       url: String,       name: String,       description: String,       agencies: Array<{|        id: Number {"typeId": "int"},         url: String,         name: String,         "type": String      |}>, 
+      image_url: String, 
+      start_date: String, 
+      end_date: String, 
+      info_url: Null, 
+      wiki_url: String
+    |}>
+  |}>
+|} {"example": "{\\\"count\\\":2013,\\\"next\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.0.0\\/launch\\/?limit=10&offset=10\\\",\\\"previous\\\":null,\\\"results\\\":[{\\\"id\\\":\\\"7e00f7c3-7648-450a-a69b-6bc94e317d04\\\",\\\"url\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/launch\\/7e00f7c3-7648-450a-a69b-6bc94e317d04\\/\\\",\\\"launch_library_id\\\":1837,\\\"slug\\\":\\\"vostok-k-sputnik-9\\\",\\\"name\\\":\\\"Vostok-K | Sputnik 9\\\",\\\"status\\\":{\\\"id\\\":3,\\\"name\\\":\\\"Success\\\"},\\\"net\\\":\\\"1961-03-09T06:29:00Z\\\",\\\"window_end\\\":\\\"1961-03-09T06:29:00Z\\\",\\\"window_start\\\":\\\"1961-03-09T06:29:00Z\\\",\\\"inhold\\\":false,\\\"tbdtime\\\":false,\\\"tbddate\\\":false,\\\"probability\\\":0,\\\"holdreason\\\":\\\"\\\",\\\"failreason\\\":\\\"\\\",\\\"hashtag\\\":\\\"\\\",\\\"launch_service_provider\\\":{\\\"id\\\":270,\\\"url\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/agencies\\/270\\/\\\",\\\"name\\\":\\\"Strategic Missile Troops\\\",\\\"type\\\":null},\\\"rocket\\\":{\\\"id\\\":2370,\\\"configuration\\\":{\\\"id\\\":103,\\\"launch_library_id\\\":139,\\\"url\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/config\\/launcher\\/103\\/\\\",\\\"name\\\":\\\"Vostok\\\",\\\"family\\\":\\\"R-7\\\",\\\"full_name\\\":\\\"Vostok-K\\\",\\\"variant\\\":\\\"K\\\"}},\\\"mission\\\":null,\\\"pad\\\":{\\\"id\\\":32,\\\"url\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/pad\\/32\\/\\\",\\\"agency_id\\\":null,\\\"name\\\":\\\"1\\/5\\\",\\\"info_url\\\":null,\\\"wiki_url\\\":\\\"\\\",\\\"map_url\\\":\\\"https:\\/\\/www.google.com\\/maps\\/place\\/45\u00C2\u00B055'12.0\\\\\\\"N+63\u00C2\u00B020'31.2\\\\\\\"E\\\",\\\"latitude\\\":\\\"45.92\\\",\\\"longitude\\\":\\\"63.342\\\",\\\"location\\\":{\\\"id\\\":15,\\\"url\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/location\\/15\\/\\\",\\\"name\\\":\\\"Baikonur Cosmodrome, Republic of Kazakhstan\\\",\\\"country_code\\\":\\\"KAZ\\\",\\\"map_image\\\":\\\"https:\\/\\/spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com\\/media\\/launch_images\\/location_15_20200803142517.jpg\\\",\\\"total_launch_count\\\":473,\\\"total_landing_count\\\":0},\\\"map_image\\\":\\\"https:\\/\\/spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com\\/media\\/launch_images\\/pad_32_20200803143513.jpg\\\",\\\"total_launch_count\\\":292},\\\"webcast_live\\\":false,\\\"image\\\":\\\"https:\\/\\/spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com\\/media\\/launcher_images\\/vostok_image_20191104130128.jpg\\\",\\\"infographic\\\":null,\\\"program\\\":[{\\\"id\\\":9,\\\"url\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/program\\/9\\/\\\",\\\"name\\\":\\\"Vostok\\\",\\\"description\\\":\\\"The Vostok programme was a Soviet human spaceflight project to put the first Soviet citizens into low Earth orbit and return them safely. Competing with the United States Project Mercury, it succeeded in placing the first human into space, Yuri Gagarin, in a single orbit in Vostok 1 on April 12, 1961.\\\",\\\"agencies\\\":[{\\\"id\\\":66,\\\"url\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/agencies\\/66\\/\\\",\\\"name\\\":\\\"Soviet Space Program\\\",\\\"type\\\":\\\"Government\\\"}],\\\"image_url\\\":\\\"https:\\/\\/spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com\\/media\\/program_images\\/vostok_program_20210417063956.png\\\",\\\"start_date\\\":\\\"1961-04-12T06:07:00Z\\\",\\\"end_date\\\":\\\"1963-06-19T08:20:00Z\\\",\\\"info_url\\\":null,\\\"wiki_url\\\":\\\"https:\\/\\/en.wikipedia.org\\/wiki\\/Vostok_programme\\\"}]}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="rocket_payload_json" format="json">
+      <types:shape format="weave" example="rockets_payload_example.json"><![CDATA[%dw 2.0
+
+type rocket_payload_json = {|
+  count: Number {"typeId": "int"}, 
+  next: String, 
+  previous: Null, 
+  results: Array<{|    id: Number {"typeId": "int"},     url: String,     name: String,     manufacturer: {|      id: Number {"typeId": "int"},       url: String,       name: String,       featured: Boolean,       "type": String,       country_code: String,       abbrev: String,       description: String,       administrator: String,       founding_year: String,       launchers: String,       spacecraft: String,       parent: String,       image_url: Null    |},     program: Array<Any>, 
+    family: String, 
+    full_name: String, 
+    variant: String, 
+    reusable: Boolean, 
+    image_url: String, 
+    info_url: String, 
+    wiki_url: String
+  |}>
+|} {"example": "{\\\"count\\\":461,\\\"next\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/config\\/launcher\\/?limit=10&offset=10\\\",\\\"previous\\\":null,\\\"results\\\":[{\\\"id\\\":136,\\\"url\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/config\\/launcher\\/136\\/\\\",\\\"name\\\":\\\"Angara 1.2\\\",\\\"manufacturer\\\":{\\\"id\\\":118,\\\"url\\\":\\\"https:\\/\\/ll.thespacedevs.com\\/2.2.0\\/agencies\\/118\\/\\\",\\\"name\\\":\\\"International Launch Services\\\",\\\"featured\\\":false,\\\"type\\\":\\\"Commercial\\\",\\\"country_code\\\":\\\"USA\\\",\\\"abbrev\\\":\\\"ILS\\\",\\\"description\\\":\\\"International Launch Services, Inc. (ILS) is a joint venture with exclusive rights to the worldwide sale of commercial Angara and Proton rocket launch services. Proton launches take place at the Baikonur Cosmodrome in Kazakhstan while Angara is planned to launch from the Plesetsk and Vostochny Cosmodromes in Russia.\\\",\\\"administrator\\\":\\\"Kirk Pysher\\\",\\\"founding_year\\\":\\\"1995\\\",\\\"launchers\\\":\\\"\\\",\\\"spacecraft\\\":\\\"\\\",\\\"parent\\\":\\\"Khrunichev State Research and Production Space Center\\\",\\\"image_url\\\":null},\\\"program\\\":[],\\\"family\\\":\\\"Angara\\\",\\\"full_name\\\":\\\"Angara 1.2\\\",\\\"variant\\\":\\\"1.2\\\",\\\"reusable\\\":false,\\\"image_url\\\":\\\"https:\\/\\/spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com\\/media\\/launcher_images\\/angara25201.2_image_20190224012254.jpeg\\\",\\\"info_url\\\":\\\"http:\\/\\/www.ilslaunch.com\\/node\\/4680\\\",\\\"wiki_url\\\":\\\"https:\\/\\/en.wikipedia.org\\/wiki\\/Angara_(rocket_family)#Angara_1.2\\\"}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="generalInfo_ex_json" format="json">
+      <types:shape format="weave" example="generalInfoExample.json"><![CDATA[%dw 2.0
+
+type generalInfo_ex_json = Array<{|  launch_info: {|    id: String,     name: String,     status: String,     launch_date: String,     failreason: String,     launch_service_provider: String,     pad: {|      name: String,       location: {|        name: String,         country_code: String,         total_launch_count: Number {"typeId": "int"},         total_landing_count: Number {"typeId": "int"}      |}    |},     rocket_name: String  |},   rocket_info: {|    name: String,     manufacturer: {|      name: String,       "type": String,       country_code: String    |},     family: String,     full_name: String,     variant: String,     reusable: Boolean,     image_url: String,     wiki_url: String  |}|}> {"example": "[{\\\"launch_info\\\":{\\\"id\\\":\\\"7e00f7c3-7648-450a-a69b-6bc94e317d04\\\",\\\"name\\\":\\\"Vostok-K | Sputnik 9\\\",\\\"status\\\":\\\"Success\\\",\\\"launch_date\\\":\\\"1961-03-09\\\",\\\"failreason\\\":\\\"\\\",\\\"launch_service_provider\\\":\\\"Strategic Missile Troops\\\",\\\"pad\\\":{\\\"name\\\":\\\"1\\/5\\\",\\\"location\\\":{\\\"name\\\":\\\"Baikonur Cosmodrome, Republic of Kazakhstan\\\",\\\"country_code\\\":\\\"KAZ\\\",\\\"total_launch_count\\\":0,\\\"total_landing_count\\\":0}},\\\"rocket_name\\\":\\\"Vostok\\\"},\\\"rocket_info\\\":{\\\"name\\\":\\\"Angara 1.2\\\",\\\"manufacturer\\\":{\\\"name\\\":\\\"International Launch Services\\\",\\\"type\\\":\\\"Commercial\\\",\\\"country_code\\\":\\\"USA\\\"},\\\"family\\\":\\\"Angara\\\",\\\"full_name\\\":\\\"Angara 1.2\\\",\\\"variant\\\":\\\"1.2\\\",\\\"reusable\\\":false,\\\"image_url\\\":\\\"https:\\/\\/spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com\\/media\\/launcher_images\\/angara25201.2_image_20190224012254.jpeg\\\",\\\"wiki_url\\\":\\\"https:\\/\\/en.wikipedia.org\\/wiki\\/Angara_(rocket_family)#Angara_1.2\\\"}}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="agencies_payload_json" format="json">
+      <types:shape format="weave" example="agencies_payload.json"><![CDATA[%dw 2.0
+
+type agencies_payload_json = {|
+  count: Number {"typeId": "int"}, 
+  next: String, 
+  previous: Null, 
+  results: Array<{|    id: Number {"typeId": "int"},     url: String,     name: String,     featured: Boolean,     "type": String,     country_code: String,     abbrev: String,     description: String,     administrator: Null,     founding_year: String,     launchers: String,     spacecraft: String,     parent: Null,     image_url: Null  |}>
+|} {"example": "{\\\"count\\\":270,\\\"next\\\":\\\"https:\\/\\/lldev.thespacedevs.com\\/2.2.0\\/agencies\\/?limit=10&offset=10\\\",\\\"previous\\\":null,\\\"results\\\":[{\\\"id\\\":225,\\\"url\\\":\\\"https:\\/\\/lldev.thespacedevs.com\\/2.2.0\\/agencies\\/225\\/\\\",\\\"name\\\":\\\"1worldspace\\\",\\\"featured\\\":false,\\\"type\\\":\\\"Commercial\\\",\\\"country_code\\\":\\\"USA\\\",\\\"abbrev\\\":\\\"1WSP\\\",\\\"description\\\":\\\"A now nonexistent satellite radio network company that operated two satellites to bring coverage with 62 stations to most of the Eastern Hemisphere. They went bankrupt in 2008. There has been a plan to relaunch the company, but it was announced in 2011, and nothing has been done since.\\\",\\\"administrator\\\":null,\\\"founding_year\\\":\\\"1960\\\",\\\"launchers\\\":\\\"None\\\",\\\"spacecraft\\\":\\\"AfriStar and AsiaStar\\\",\\\"parent\\\":null,\\\"image_url\\\":null},{\\\"id\\\":136,\\\"url\\\":\\\"https:\\/\\/lldev.thespacedevs.com\\/2.2.0\\/agencies\\/136\\/\\\",\\\"name\\\":\\\"Ad Astra Rocket Company\\\",\\\"featured\\\":false,\\\"type\\\":\\\"Commercial\\\",\\\"country_code\\\":\\\"USA\\\",\\\"abbrev\\\":\\\"AARC\\\",\\\"description\\\":\\\"Ad Astra Rocket Company is an American Space Company doing research and development in plasma propulsion technology. This involves using the technology of VASIMR developed in the late '70s, developed by the companies founder, Franklin Diaz. They have begun testing of their VF-200 model engine, built for interplanetary travel.\\\",\\\"administrator\\\":\\\"Dr. Franklin Chang Diaz\\\",\\\"founding_year\\\":\\\"2005\\\",\\\"launchers\\\":\\\"None\\\",\\\"spacecraft\\\":\\\"VX-200, VF-200\\\",\\\"parent\\\":null,\\\"image_url\\\":null}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="agency_output_json" format="json">
+      <types:shape format="weave" example="agencies_output.json"><![CDATA[%dw 2.0
+
+type agency_output_json = {|
+  name: String, 
+  "type": String, 
+  country_code: String
+|} {"example": "{\\\"name\\\":\\\"1worldspace\\\",\\\"type\\\":\\\"Commercial\\\",\\\"country_code\\\":\\\"USA\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#a6079749-4c91-4e22-839e-f66a22880e28">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="launch_payload_json"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="launchInfo_ex_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#bb87f3e5-fe27-4a5f-b00f-e0244aade363">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="rocket_payload_json"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="rocketInfo_ex_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#fc11fe0c-5850-488e-81c7-2af1405dd3ca">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="generalInfo_ex_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#406f04c9-bd65-4b9b-a94d-972877998b1e">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="agencies_payload_json"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="agency_output_json[]"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#07116e28-63ed-48ca-a4ac-ed2c6bfa9da9">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="generalInfo_ex_json"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
