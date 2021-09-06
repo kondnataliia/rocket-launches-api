@@ -1,11 +1,17 @@
 [
   {
-    "id": "7e00f7c3-7648-450a-a69b-6bc94e317d04",
-    "name": "vostok-k-sputnik-9",
+    "id": "e3df2ecd-c239-472f-95e4-2b89b4f75800",
+    "name": "Sputnik 8K74PS | Sputnik 1",
     "status": "Success",
-    "launch_date": "1961-03-09",
+    "launch_date": "1957-10-04",
     "failreason": "",
-    "launch_service_provider": "Strategic Missile Troops",
+    "launch_service_provider": "Soviet Space Program",
+    "mission": {
+      "name": "Sputnik 1",
+      "description": "First artificial satellite consisting of a 58 cm pressurized aluminium shell containing two 1 W transmitters for a total mass of 83.6 kg.",
+      "type": "Test Flight",
+      "orbit": "Low Earth Orbit"
+    },
     "pad": {
       "name": "1/5",
       "location": {
@@ -15,6 +21,6 @@
         "total_landing_count": 0
       }
     },
-    "rocket_name": "Vostok"
+    "rocket_name": "Sputnik 8K74PS"
   }
 ]

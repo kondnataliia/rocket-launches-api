@@ -18,15 +18,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		<scatter-gather doc:name="Scatter-Gather" doc:id="26263bb2-66f6-420d-aa6e-ec6255cab05e" >
 			<route>
 				<try doc:name="Try" doc:id="3f5da05c-057c-4376-b264-bc3e29bf8fb9" >
-					<flow-ref doc:name="Get launch information" doc:id="c67010a4-2f4d-4706-a598-45b58baefd01" name="getLaunchInfo" />
-					<ee:transform doc:name="Transform Message" doc:id="2323fc64-fb0f-4353-b12b-f5a30379edf2">
-			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-payload filter ((item, index) -> item.rocket_name == vars.name)]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+					<flow-ref doc:name="Get launch information" doc:id="c67010a4-2f4d-4706-a598-45b58baefd01" name="getLaunchInfoByRocketName" />
 					<error-handler >
 						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="afa511fa-91a3-40a3-bc32-be4b17d5d502" type="ANY" >
 							<ee:transform doc:name="Error message" doc:id="c6b7faac-6fce-4410-9c19-531d6357d9b5" >
@@ -85,17 +77,7 @@ output application/json
 		<validation:is-not-null doc:name="Check for launch_name is not null" doc:id="7bd701eb-321b-4ff3-8456-6ce8da171f04" config-ref="Validation_Config" value="#[vars.launch_name]" message="#[&quot;Query Parameter 'launch_name' is missing&quot;]">
 			<error-mapping sourceType="VALIDATION:NULL" targetType="APP:NULL_VALUE" />
 		</validation:is-not-null>
-		<flow-ref doc:name="getLaunchInfo" doc:id="f2b23d13-ec9a-4ad5-a51a-096c50c242e9" name="getLaunchInfo" />
-		<ee:transform doc:name="Filtering by launch name" doc:id="f7ef847d-13a2-4714-ab0b-9d95d3906ebd">
-			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-payload filter ((item, index) -> item.name == vars.launch_name)]]></ee:set-payload>
-			</ee:message>
-			<ee:variables>
-			</ee:variables>
-		</ee:transform>
+		<flow-ref doc:name="getLaunchInfo" doc:id="f2b23d13-ec9a-4ad5-a51a-096c50c242e9" name="getLaunchInfoByRocketName" />
 		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="71d6644c-6499-439d-ac16-c456f67e2fc0" config-ref="Validation_Config" message='#["There is no information about the launch of such a rocket."]'>
 			<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:EMPTY_COLLECTION" />
 		</validation:is-not-empty-collection>
@@ -115,13 +97,12 @@ output application/json
 		</ee:transform>
 		<logger level="INFO" doc:name="End log" doc:id="8f88ddd6-250f-438f-be7e-b097023b0570" message="#[payload]" />
 	</sub-flow>
-	<sub-flow name="getLaunchInfo" doc:id="00fe8603-e670-4349-8d17-839d65c614cc">
-		<http:request method="GET" doc:name="Get all launches" doc:id="125ed0d5-3421-4376-beba-1c7fa56f6d7e" config-ref="HTTP_Request_configuration" path="/2.0.0/launch" outputMimeType="application/json">
-			<http:query-params ><![CDATA[#[output application/java
+	<sub-flow name="getLaunchInfoByRocketName" doc:id="00fe8603-e670-4349-8d17-839d65c614cc">
+		<http:request method="GET" doc:name="Get all launches" doc:id="125ed0d5-3421-4376-beba-1c7fa56f6d7e" config-ref="HTTP_Request_configuration" path="/2.0.0/launch/?mode=detailed" outputMimeType="application/json">
+			<http:query-params ><![CDATA[#[output application/json
 ---
 {
-	"offset" : vars.offset,
-	"limit" : vars.limit
+	"rocket__configuration__name" : vars.name
 }]]]></http:query-params>
 		</http:request>
 		<ee:transform doc:name="Payload transformation" doc:id="a6079749-4c91-4e22-839e-f66a22880e28">
@@ -136,6 +117,52 @@ payload.results map ( result , indexOfResult ) -> {
 	launch_date: result.net[0 to 9] default "",
 	failreason: result.failreason default "",
 	launch_service_provider: result.launch_service_provider.name default "",
+	mission: {
+		name: result.mission.name default "",
+		description: result.mission.description default "",
+		"type": result.mission."type" default "",
+		orbit: result.mission.orbit.name default ""
+	},
+	pad: {
+		name: result.pad.name default "",
+		location: {
+			name: result.pad.location.name default "",
+			country_code: result.pad.location.country_code default "",
+			total_launch_count: result.pad.location.total_launch_count default "",
+			total_landing_count: result.pad.location.total_landing_count default ""
+		}
+	},
+	rocket_name: result.rocket.configuration.name default ""
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="getLaunchInfoByLaunchName" doc:id="81c73b18-0c2c-4407-b671-7a71991be57f">
+		<http:request method="GET" doc:name="Get all launches" doc:id="e67c2284-f8a2-4e5d-ae37-a18095987688" config-ref="HTTP_Request_configuration" path="/2.0.0/launch/?mode=detailed" outputMimeType="application/json">
+			<http:query-params><![CDATA[#[output application/json
+---
+{
+	"name" : vars.name
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Payload transformation" doc:id="e61e2c08-c4b9-45bc-8228-67a48129bc67">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload.results map ( result , indexOfResult ) -> {
+	id: result.id default "",
+	name: result.slug default "",
+	status: result.status.name default "",
+	launch_date: result.net[0 to 9] default "",
+	failreason: result.failreason default "",
+	launch_service_provider: result.launch_service_provider.name default "",
+	mission: {
+		name: result.mission.name default "",
+		description: result.mission.description default "",
+		"type": result.mission."type" default "",
+		orbit: result.mission.orbit.name default ""
+	},
 	pad: {
 		name: result.pad.name default "",
 		location: {
@@ -264,6 +291,12 @@ payload.results map ( result , indexOfResult ) -> {
 		family: result.rocket.configuration.family,
 		full_name: result.rocket.configuration.full_name,
 		variant: result.rocket.configuration.variant		
+	},
+    mission: {
+		name: result.mission.name default "",
+		description: result.mission.description default "",
+		"type": result.mission."type" default "",
+		orbit: result.mission.orbit.name default ""
 	},
 	pad: {
 		name: result.pad.name,
