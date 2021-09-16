@@ -9,8 +9,8 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	<sub-flow name="start-log-offset-limit" doc:id="3f63c02e-a7b7-4ac7-a6cc-624442b9155d" >
 		<logger level="INFO" doc:name="Start log" doc:id="5c88d0fd-07e6-4b73-be7d-a16a89a2ffb7" />
-		<set-variable value="#[message.attributes.queryParams.offset default 0]" doc:name="Set offset" doc:id="0280a3f2-328b-40a9-a7db-b9d060a5b0c4" variableName="offset" />
-		<set-variable value="#[message.attributes.queryParams.limit default 10]" doc:name="Set limit" doc:id="ef13e759-52f1-4726-be3b-d4d0b8d64408" variableName="limit" />
+		<set-variable value="#[message.attributes.queryParams.offset]" doc:name="Set offset" doc:id="0280a3f2-328b-40a9-a7db-b9d060a5b0c4" variableName="offset" />
+		<set-variable value="#[message.attributes.queryParams.limit]" doc:name="Set limit" doc:id="ef13e759-52f1-4726-be3b-d4d0b8d64408" variableName="limit" />
 	</sub-flow>
 	<flow name="getLaunchesByRocketName" doc:id="07555d88-1d89-4496-81a7-cf8846d5ee94" >
 		<flow-ref doc:name="Start log / offset / limit" doc:id="75c1b5f5-605d-4ae0-8b24-a0c2977b7c32" name="start-log-offset-limit" />
@@ -74,10 +74,10 @@ output application/json
 	<sub-flow name="getLaunchesByLaunchName" doc:id="6a6ad843-8e04-4e8d-8673-8453b023a5c2" >
 		<flow-ref doc:name="Start log / offset / limit" doc:id="9201def9-2434-4e40-bc45-32c179fcb075" name="start-log-offset-limit" />
 		<set-variable value='#[message.attributes.queryParams.launch_name default ""]' doc:name="Set launch_name" doc:id="218f39d6-8964-4c51-a00a-c69620c9269d" variableName="launch_name" />
-		<validation:is-not-null doc:name="Check for launch_name is not null" doc:id="7bd701eb-321b-4ff3-8456-6ce8da171f04" config-ref="Validation_Config" value="#[vars.launch_name]" message="#[&quot;Query Parameter 'launch_name' is missing&quot;]">
+		<validation:is-not-null doc:name="Check for launch_name is not null" doc:id="7bd701eb-321b-4ff3-8456-6ce8da171f04" config-ref="Validation_Config" value="#[vars.launch_name]" message="#[&quot;Query Parameter 'launch_name' is missing.&quot;]">
 			<error-mapping sourceType="VALIDATION:NULL" targetType="APP:NULL_VALUE" />
 		</validation:is-not-null>
-		<flow-ref doc:name="getLaunchInfo" doc:id="f2b23d13-ec9a-4ad5-a51a-096c50c242e9" name="getLaunchInfoByRocketName" />
+		<flow-ref doc:name="getLaunchInfo" doc:id="f2b23d13-ec9a-4ad5-a51a-096c50c242e9" name="getLaunchInfoByLaunchName" />
 		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="71d6644c-6499-439d-ac16-c456f67e2fc0" config-ref="Validation_Config" message='#["There is no information about the launch of such a rocket."]'>
 			<error-mapping sourceType="VALIDATION:EMPTY_COLLECTION" targetType="APP:EMPTY_COLLECTION" />
 		</validation:is-not-empty-collection>
@@ -98,7 +98,7 @@ output application/json
 		<logger level="INFO" doc:name="End log" doc:id="8f88ddd6-250f-438f-be7e-b097023b0570" message="#[payload]" />
 	</sub-flow>
 	<sub-flow name="getLaunchInfoByRocketName" doc:id="00fe8603-e670-4349-8d17-839d65c614cc">
-		<http:request method="GET" doc:name="Get all launches" doc:id="125ed0d5-3421-4376-beba-1c7fa56f6d7e" config-ref="HTTP_Request_configuration" path="/2.0.0/launch/?mode=detailed" outputMimeType="application/json">
+		<http:request method="GET" doc:name="Get all launches" doc:id="125ed0d5-3421-4376-beba-1c7fa56f6d7e" config-ref="HTTP_Request_configuration" path="/2.0.0/launch" outputMimeType="application/json">
 			<http:query-params ><![CDATA[#[output application/json
 ---
 {
@@ -138,7 +138,7 @@ payload.results map ( result , indexOfResult ) -> {
 		</ee:transform>
 	</sub-flow>
 	<sub-flow name="getLaunchInfoByLaunchName" doc:id="81c73b18-0c2c-4407-b671-7a71991be57f">
-		<http:request method="GET" doc:name="Get all launches" doc:id="e67c2284-f8a2-4e5d-ae37-a18095987688" config-ref="HTTP_Request_configuration" path="/2.0.0/launch/?mode=detailed" outputMimeType="application/json">
+		<http:request method="GET" doc:name="Get all launches" doc:id="e67c2284-f8a2-4e5d-ae37-a18095987688" config-ref="HTTP_Request_configuration" path="/2.0.0/launch" outputMimeType="application/json">
 			<http:query-params><![CDATA[#[output application/json
 ---
 {
