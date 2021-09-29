@@ -181,7 +181,7 @@ output application/json
 }]]></ee:set-payload>
 				</ee:message>
 			</ee:transform>
-			<set-variable value="#[400]" doc:name="httpStatus" doc:id="20149a43-cc2d-4f87-9883-5447f39c6313" variableName="httpStatus"/>
+			<set-variable value="#[404]" doc:name="httpStatus" doc:id="20149a43-cc2d-4f87-9883-5447f39c6313" variableName="httpStatus"/>
 		</on-error-propagate>
 	</error-handler>
 </mule>

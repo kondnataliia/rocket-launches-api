@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	<sub-flow name="start-log-offset-limit" doc:id="3f63c02e-a7b7-4ac7-a6cc-624442b9155d" >
-		<logger level="INFO" doc:name="Start log" doc:id="5c88d0fd-07e6-4b73-be7d-a16a89a2ffb7" />
+		<logger level="INFO" doc:name="Start log" doc:id="5c88d0fd-07e6-4b73-be7d-a16a89a2ffb7" message='#["The application has been launched."]'/>
 		<set-variable value="#[message.attributes.queryParams.offset]" doc:name="Set offset" doc:id="0280a3f2-328b-40a9-a7db-b9d060a5b0c4" variableName="offset" />
 		<set-variable value="#[message.attributes.queryParams.limit]" doc:name="Set limit" doc:id="ef13e759-52f1-4726-be3b-d4d0b8d64408" variableName="limit" />
 	</sub-flow>

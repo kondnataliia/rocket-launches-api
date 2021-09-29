@@ -932,10 +932,7 @@ output application/json
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution>
-			<munit:set-event doc:name="Set Event"
-				doc:id="6b3f28ed-83e9-424c-b49b-9d3e490ac23b"
-				cloneOriginalEvent="true">
-				<munit:attributes value='#[{queryParams: {status: "Success"}}]' />
+			<munit:set-event doc:name="Set Event" doc:id="89bb7577-f4a0-4ab0-bcc8-4be38e292a34" cloneOriginalEvent="true">
 				<munit:attributes value='#[{queryParams: {status: "Success"}}]' />
 			</munit:set-event>
 			<flow-ref doc:name="Flow-ref to getLaunchesByStatus"
@@ -2019,7 +2016,7 @@ output application/json
 			<flow-ref doc:name="rocket-launches-api-main" doc:id="77a45218-90ac-4604-adfd-8009015db05c" name="rocket-launches-api-main" />
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-equals doc:name="Copy_of_Assert equals" doc:id="0e39ee8f-e773-4e02-84fd-dee054761f6f" actual="#[vars.httpStatus]" expected="#[415]" />
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="0e39ee8f-e773-4e02-84fd-dee054761f6f" actual="#[vars.httpStatus]" expected="#[415]" />
 		</munit:validation>
 	</munit:test>
 	<munit:test name="error-handling-test-APIKIT:NOT_IMPLEMENTED" doc:id="4b62aa61-e8bf-4e22-adf0-4e900048374a" expectedErrorType="APIKIT:NOT_IMPLEMENTED">
